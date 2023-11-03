@@ -7,7 +7,6 @@ app.use(express.json());
 app.use(morgan("dev")); 
 
 // 라우터
-
 app.use('/tweets', tweetsRouter);
     
 
