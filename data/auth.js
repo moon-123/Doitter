@@ -24,7 +24,8 @@ export async function create(username, password, name, email){
         password,
         name,
         email,
-        createAt: Date.now().toString()
+        createAt: Date.now().toString(),
+        url: "https://i.pinimg.com/originals/a8/dc/63/a8dc63c8abeeb6708dbec6ef3009608a.jpg"
     };
     users = [data, ...users];
     console.log(users);
