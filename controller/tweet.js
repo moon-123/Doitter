@@ -32,7 +32,7 @@ export async function updateTweet(req, res){
     const tweet = await tweetRepository.getById(id);
 
     if (!tweet){
-        res.status(404).json({message: `There is No id: ${id}`});
+        return res.status(404).json({message: `There is No id: ${id}`});
     }
     if(tweet.userId !== req.userId){
         return res.status(403).json({message: "본인 글만 수정할 수 있습니다."});
@@ -47,13 +47,13 @@ export async function deleteTweet(req, res){
     const tweet = await tweetRepository.getById(id);
 
     if (!tweet){
-        res.status(404).json({message: `There is No id: ${id}`});
+        return res.status(404).json({message: `There is No id: ${id}`});
     }
     if(tweet.userId !== req.userId){
         return res.status(403).json({message: "본인 글만 삭제할 수 있습니다."});
     }
 
-    const del = await tweetRepository.remove(id);
+    const del = await tweetRepository.remove(id); 
     res.sendStatus(204);
 }
  
