@@ -1,11 +1,13 @@
 import * as userRepository from '../data/auth.js';
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import { config } from '../config.js';
 
-// 설정파일로 적용할 예정
-const jwtSecretKey = 'abcdef!@#$%^&*()';
-const jwtExpiresInDays = '2d';
-const bcryptSaltRounds = 12;
+// // 설정파일로 적용할 예정
+// const jwtSecretKey = 'abcdef!@#$%^&*()';
+// const jwtExpiresInDays = '2d';
+// const bcryptSaltRounds = 12;
+
 
 export async function getUsers(req, res){
     const data = await userRepository.getUsers()
@@ -20,7 +22,7 @@ export async function signup(req, res){
         res.status(409).json({message: `username \'${username}\' is already exist`}); // 중복되었다 -> 409
     }
     // 입력된 비밀번호 hash처리
-    const hashed = bcrypt.hashSync(password, bcryptSaltRounds);     
+    const hashed = bcrypt.hashSync(password, config.bcrypt.saltRounds);     
     
     // hash된 비밀번호와 나머지 정보로 create User, Token
     const userId = await userRepository.createUser({username, password: hashed, name, email, url}); 
@@ -30,7 +32,7 @@ export async function signup(req, res){
 
 
 function createJwtToken(id){
-    return jwt.sign({ id }, jwtSecretKey, { expiresIn: jwtExpiresInDays });
+    return jwt.sign({ id }, config.jwt.secretKey, { expiresIn: config.jwt.expiresInSec });
 };
 
 
