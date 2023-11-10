@@ -1,5 +1,5 @@
 import * as tweetRepository from '../data/tweet.js';
-
+import { getSocketIO } from '../connection/socket.js';
 
 export async function getTweets(req, res){
     const username = req.query.username;
@@ -24,6 +24,8 @@ export async function createTweet(req, res){
     const { text } = req.body;
     const data = await tweetRepository.create( text, req.userId);
     res.status(201).json(data);
+    getSocketIO().emit('tweets', tweet) // 이게 소캣 역할을 함
+    // 클라이언트만 잘 만들면 글이 등록될 때마다 자동으로 추가 가능
 }
 
 export async function updateTweet(req, res){

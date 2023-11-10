@@ -27,12 +27,10 @@ const validateSignup = [
     validate
 ]
 
-router.get('/', authController.getUsers);
 
+// router.get('/', authController.getUsers);
 router.post('/signup', validateSignup, authController.signup);
-
 router.post('/login', validateCredential, authController.login);
-
 router.get('/me', isAuth, authController.me);
 
 export default router;

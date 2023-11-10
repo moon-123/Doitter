@@ -51,17 +51,16 @@ export async function login(req, res){
     const {username, password} = req.body;
 
     const user = await userRepository.findByUsername(username);
-
+    console.log(user);
     if(!user){
         return res.status(401).json({message: 'no Id'});
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password)
     // await 대신에 compareSync 써도 됨
-
     if(!isValidPassword){
         return res.status(401).json({message: '비밀번호 틀림'});
     }
-    const token = createJwtToken(user.userId);
+    const token = createJwtToken(user.id);
     res.status(200).json({token, username});
 };
