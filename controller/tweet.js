@@ -22,9 +22,9 @@ export async function getTweet(req, res){
 
 export async function createTweet(req, res){
     const { text } = req.body;
-    const data = await tweetRepository.create( text, req.userId);
+    const data = await tweetRepository.create(text, req.userId);
     res.status(201).json(data);
-    getSocketIO().emit('tweets', tweet) // 이게 소캣 역할을 함
+    getSocketIO().emit('tweets', data) // 이게 소캣 역할을 함
     // 클라이언트만 잘 만들면 글이 등록될 때마다 자동으로 추가 가능
 }
 
