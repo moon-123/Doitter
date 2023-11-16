@@ -1,11 +1,18 @@
-import mysql from 'mysql2';
-import {config} from '../config.js';
+import MongoDb from 'mongodb';
+import { config } from '../config.js';
 
-const pool = mysql.createPool({
-    host: config.db.host,
-    user: config.db.user,
-    database: config.db.database,
-    password: config.db.password
-});
+let db;
+export async function connectDB(){
+    return MongoDb.MongoClient.connect(config.db.host)
+        .then((client) => db = client.db());
+} 
 
-export const db = pool.promise(); // promise형태로 변형해서 import then..등등 사용 가능
+
+// collection 을 리턴해주는 함수.
+export function getUsers(){
+    return db.collection('users');
+}
+
+export function getTweets(){
+    return db.collection('tweets');
+}

@@ -19,7 +19,7 @@ export async function signup(req, res){
     const {username, password, name, email, url} = req.body;
     const isUser = await userRepository.findByUsername(username);   // username 중복 확인.
     if(isUser){
-        res.status(409).json({message: `username \'${username}\' is already exist`}); // 중복되었다 -> 409
+        return res.status(409).json({message: `username \'${username}\' is already exist`}); // 중복되었다 -> 409
     }
     // 입력된 비밀번호 hash처리
     const hashed = bcrypt.hashSync(password, config.bcrypt.saltRounds);     

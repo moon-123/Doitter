@@ -6,7 +6,8 @@ import authRouter from './router/auth.js';
 import { config } from './config.js';
 import cors from 'cors';
 import { initSocket } from './connection/socket.js'
-import { db } from './db/database.js';
+// import { db } from './db/database.js';
+import { connectDB } from './db/database.js';
 
 // dotenv.config();
 
@@ -26,7 +27,12 @@ app.use((req, res, next) => {
     res.sendStatus(404);
 });
 
-db.getConnection().then(connection => console.log(connection));
+// db.getConnection().then(connection => console.log(connection));
 
-const server = app.listen(config.host.port); 
-initSocket(server);
+connectDB().then((db) => {
+    const server = app.listen(config.host.port);
+    initSocket(server);
+}).catch(console.error);
+
+// const server = app.listen(config.host.port); 
+// initSocket(server);

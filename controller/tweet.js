@@ -30,6 +30,7 @@ export async function createTweet(req, res){
 
 export async function updateTweet(req, res){
     const id = req.params.id
+    console.log('cid', id);
     const text = req.body.text;
     const tweet = await tweetRepository.getById(id);
 
