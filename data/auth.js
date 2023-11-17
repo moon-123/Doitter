@@ -1,39 +1,29 @@
-// let users = [
-//     {
-//         id: '1',
-//         username: 'apple',
-//         password: '$2b$10$6NVVL4gEtPh684Ncn2sCRe/LPe0u4kRkhBYSoiLx4bTGW5gwQ58Dy',
-//         name: '김사과',
-//         email: 'apple@apple.com',
-//         url: 'https://i.pinimg.com/originals/a8/dc/63/a8dc63c8abeeb6708dbec6ef3009608a.jpg'
-//     },
-//     {
-//         id: '2',
-//         username: 'banana',
-//         password: '$2b$10$6NVVL4gEtPh684Ncn2sCRe/LPe0u4kRkhBYSoiLx4bTGW5gwQ58Dy',
-//         name: '반하나',
-//         email: 'banana@banana.com',
-//         url: 'https://i.pinimg.com/originals/a8/dc/63/a8dc63c8abeeb6708dbec6ef3009608a.jpg'
-//     }
-// ]
+import Mongoose from "mongoose";
+import { useVirtualId } from '../db/database.js';
 
-import { db } from '../db/database.js';
-export async function getUsers(){
-    return null
-}
+// mongoose는 스키마를 만들 수 있음
+const userSchema = new Mongoose.Schema({
+    username: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    url: String
+});
+
+useVirtualId(userSchema);
+const User = Mongoose.model('User', userSchema) // s 자동으로 붙음
+// 컬렉션 완성
 
 export async function findByUsername(username){
-    return db.execute('SELECT * FROM users WHERE username = ?', [username]).then((result) => result[0][0])
+    return User.findOne({ username });
 }
 
 export async function findById(id){
-    return db.execute('SELECT * FROM users WHERE id = ?', [id]).then((result) => result[0][0])
-
+    return User.findById(id);
 }
 
 export async function createUser(user){
-    const { username, password, name, email, url } = user;
-    // user.push(created); // push 함수 사용.
-    return db.execute('INSERT INTO users (username, password, name, email, url) VALUES (?, ?, ?, ?, ?)', [username, password, name, email, url]).then((result) => result[0].insertId)
+    return new User(user).save().then((data) => data.id);
 }
-
+// virtual의 id임.
+ 
