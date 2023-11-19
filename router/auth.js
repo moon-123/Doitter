@@ -6,6 +6,7 @@ import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// 유효 검증은 변경될 사항이 아직 없음. DB가 변경되었을 뿐임. 유념
 const validateCredential = [
     body('username')
         .trim()
@@ -32,5 +33,7 @@ const validateSignup = [
 router.post('/signup', validateSignup, authController.signup);
 router.post('/login', validateCredential, authController.login);
 router.get('/me', isAuth, authController.me);
+// db가 변경되면 data 파트만 변경하면 됨.
+// controller를 건드리지 않도록 설계해야 잘 짠 코드임
 
 export default router;

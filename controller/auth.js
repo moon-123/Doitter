@@ -9,10 +9,10 @@ import { config } from '../config.js';
 // const bcryptSaltRounds = 12;
 
 
-export async function getUsers(req, res){
-    const data = await userRepository.getUsers()
-    res.status(200).json(data);
-};
+// export async function getUsers(req, res){
+//     const data = await userRepository.getUsers()
+//     res.status(200).json(data);
+// };
 
 
 export async function signup(req, res){
